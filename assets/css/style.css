@@ -887,6 +887,52 @@ section {
 /*--------------------------------------------------------------
 # Menu Section
 --------------------------------------------------------------*/
+/* Add this CSS to your existing styles or create a new stylesheet */
+/* Add this CSS to your existing styles or create a new stylesheet */
+
+#whatsapp-container {
+  background-color: #18d26e;
+  
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: #18d26e;
+  border-radius: 20px;
+}
+
+#whatsapp-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+
+}
+
+#whatsapp-button img {
+  width: 40px; /* Adjust the size as needed */
+  margin-right: 0px; /* Spacing between icon and label */
+}
+
+#order-now-label {
+  color: #fff;
+  opacity: 0; 
+  transition: opacity 0.3s;
+  font-size: 20px;
+  width: 120px;
+  text-align: center;
+  font-family: 'Segoe UI';
+}
+
+#whatsapp-button:hover #order-now-label {
+  opacity: 1;
+}
+
+/* Hide the label when the cursor moves away from the #whatsapp-container */
+#whatsapp-container:not(:hover) #order-now-label {
+  opacity: 1;
+}
+
 .menu #menu-flters {
   padding: 0;
   margin: 0 auto 0 auto;
@@ -1150,7 +1196,7 @@ section {
 
 .book-a-table .php-email-form .validate {
   display: none;
-  color: red;
+  color: red; 
   margin: 0 0 15px 0;
   font-weight: 400;
   font-size: 13px;
@@ -1197,6 +1243,39 @@ section {
   animation: animate-loading 1s linear infinite;
 }
 
+
+
+#date{
+  color: #a49b89;
+  background-color: #0c0b09;
+}
+
+#time{
+  color: #a49b89;
+  background-color: #0c0b09;
+  
+}
+
+#date::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+#date::-webkit-inner-spin-button,
+#date::-webkit-clear-button {
+  filter: invert(1);
+}
+
+
+
+
+#time::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+#time::-webkit-inner-spin-button,
+#time::-webkit-clear-button {
+  filter: invert(1);
+}
 .book-a-table .php-email-form input, .book-a-table .php-email-form textarea {
   border-radius: 0;
   box-shadow: none;

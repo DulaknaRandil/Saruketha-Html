@@ -1,85 +1,73 @@
-/**
-* PHP Email Form Validation - v3.0
-* URL: https://bootstrapmade.com/php-email-form/
-* Author: BootstrapMade.com
-*/
+// Enhanced form submission with validation
 (function () {
   "use strict";
 
   let forms = document.querySelectorAll('.php-email-form');
 
-  forms.forEach( function(e) {
-    e.addEventListener('submit', function(event) {
+  forms.forEach(function (form) {
+    form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      let thisForm = this;
+      // Validate WhatsApp fields
+      if (validateWhatsAppFields(form)) {
+        // Submit the form data
+        console.log('Submitting form data...');
+        submitFormData(form);
 
-      let action = thisForm.getAttribute('action');
-      let recaptcha = thisForm.getAttribute('data-recaptcha-site-key');
-      
-      if( ! action ) {
-        displayError(thisForm, 'The form action property is not set!')
-        return;
-      }
-      thisForm.querySelector('.loading').classList.add('d-block');
-      thisForm.querySelector('.error-message').classList.remove('d-block');
-      thisForm.querySelector('.sent-message').classList.remove('d-block');
-
-      let formData = new FormData( thisForm );
-
-      if ( recaptcha ) {
-        if(typeof grecaptcha !== "undefined" ) {
-          grecaptcha.ready(function() {
-            try {
-              grecaptcha.execute(recaptcha, {action: 'php_email_form_submit'})
-              .then(token => {
-                formData.set('recaptcha-response', token);
-                php_email_form_submit(thisForm, action, formData);
-              })
-            } catch(error) {
-              displayError(thisForm, error)
-            }
-          });
-        } else {
-          displayError(thisForm, 'The reCaptcha javascript API url is not loaded!')
-        }
+        // Call sendWhatsapp function after successful validation
+        sendWhatsapp();
       } else {
-        php_email_form_submit(thisForm, action, formData);
+        console.log('Form not submitted due to validation failure');
       }
     });
   });
 
-  function php_email_form_submit(thisForm, action, formData) {
-    fetch(action, {
-      method: 'POST',
-      body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
-    })
-    .then(response => {
-      if( response.ok ) {
-        return response.text()
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
-      }
-    })
-    .then(data => {
-      thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
-      }
-    })
-    .catch((error) => {
-      displayError(thisForm, error);
-    });
+  function validateWhatsAppFields(form) {
+    let noWa = form.querySelector('.noWa');
+    let name = form.querySelector('.name');
+    let ph = form.querySelector('.tphone');
+    let email = form.querySelector('.gemail');
+    let message = form.querySelector('.message');
+
+    // Check if all fields are filled
+    if (!noWa.value || !name.value || !ph.value || !email.value || !message.value) {
+      displayError(form, 'Please fill out all WhatsApp fields');
+      return false;
+    }
+
+    // Check if the email is in the correct format
+    if (!isValidEmail(email.value)) {
+      displayError(form, 'Please enter a valid email address');
+      return false;
+    }
+
+    return true;
   }
 
-  function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
+  function isValidEmail(email) {
+    // Regular expression for validating an Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function displayError(form, error) {
+    // Display the error in the console for debugging
+    console.error(error);
+
+    // You can also display an error message on the form if needed
+    // Example: form.querySelector('.error-message').innerText = error;
+  }
+
+  function submitFormData(form) {
+    // Display success message
+    console.log('Form data submitted successfully');
+    form.querySelector('.sent-message').classList.add('d-block');
+
+    // Reset the form after a delay (adjust as needed)
+    setTimeout(function () {
+      form.querySelector('.sent-message').classList.remove('d-block');
+      form.reset();
+    }, 4000);
   }
 
 })();
