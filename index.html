@@ -1006,8 +1006,8 @@ function toggleWhatsappButton() {
     orderNowLabel.style.display = 'none';
   }
 }
-else{
-  if (scrollPosition+100 >= menuSectionOffset && scrollPosition < specialsSectionOffset+800) {
+else {
+  if (scrollPosition >= menuSectionOffset && scrollPosition < specialsSectionOffset + 800) {
     whatsappContainer.style.display = 'flex';
     // Show the "Order Now" label when WhatsApp is displayed
     orderNowLabel.style.display = 'none';
@@ -1017,6 +1017,7 @@ else{
     orderNowLabel.style.display = 'none';
   }
 }
+
 }
 // Function to show/hide the "Order Now" label on hover
 function toggleOrderNowLabel(show) {
